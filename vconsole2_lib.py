@@ -25,6 +25,7 @@ class VConsole2Lib:
         self.on_cvars_loaded = None
         self.on_adon_received = None
         self.on_disconnected = None
+        self.ignore_channels = []
         self.client_socket = None
         self.log_to_screen = True
         self.log_to_file = None
@@ -40,7 +41,7 @@ class VConsole2Lib:
         except:
             return False
 
-    def __print(self, text):
+    def log(self, text):
         if self.log_to_file:
             with open(self.log_to_file, "a") as myfile:
                 myfile.write("[%s] %s" % (time.strftime("%H:%M:%S"), text))
@@ -59,16 +60,18 @@ class VConsole2Lib:
 
                 if self.stream.msg_type == 'PRNT':
                     prnt = PacketPRNT(self.stream)
-                    self.__print("PRNT (%s): %s" % (channel.channelById(prnt.channelID, self.channels), prnt.msg))
-                    if self.on_prnt_received:
-                        self.on_prnt_received(self.channels.channelById(prnt.channelID), prnt.msg)
+                    this_channel = channel.channelById(prnt.channelID, self.channels)
+                    if this_channel not in self.ignore_channels:
+                        self.log("PRNT (%s): %s" % (this_channel, prnt.msg))
+                        if self.on_prnt_received:
+                            self.on_prnt_received(self, this_channel, prnt.msg)
 
                 elif self.stream.msg_type == 'AINF':
                     self.ainf = PacketAINF(self.stream)
                 elif self.stream.msg_type == 'ADON':
                     adon = PacketADON(self.stream)
                     self.adon_name = adon.name
-                    self.__print("ADON: %s \n" % (self.adon_name))
+                    self.log("ADON: %s \n" % (self.adon_name))
                     if self.on_adon_received:
                         self.on_adon_received(self, self.adon_name)
                 elif self.stream.msg_type == 'CHAN':
