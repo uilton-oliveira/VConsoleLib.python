@@ -1,3 +1,4 @@
+import os
 from packet_prnt import PacketPRNT
 from packet_ainf import PacketAINF
 from packet_adon import PacketADON
@@ -29,6 +30,8 @@ class VConsole2Lib:
         self.client_socket = None
         self.log_to_screen = True
         self.log_to_file = None
+        self.html_output = False
+        self.channels_custom_color = {}
 
     def connect(self, ip='127.0.0.1', port=29000):
         try:
@@ -41,13 +44,19 @@ class VConsole2Lib:
         except:
             return False
 
-    def log(self, text):
+    def log(self, text, color='000000'):
         if self.log_to_file:
+            #file_exist = os.path.isfile(self.log_to_file)
             with open(self.log_to_file, "a") as myfile:
-                myfile.write("[%s] %s" % (time.strftime("%H:%M:%S"), text))
+                if self.html_output:
+                    myfile.write('<span style="color:#%s; display:block">[%s] %s</span>' % (color, time.strftime("%H:%M:%S"), text))
+                else:
+                    myfile.write("[%s] %s" % (time.strftime("%H:%M:%S"), text))
         if self.log_to_screen:
             print "[%s] %s" % (time.strftime("%H:%M:%S"), text),
 
+    def __bytes_to_hex(self, bytes):
+        return ":".join("{0:x}".format(ord(c)) for c in bytes)
     def __listen(self):
 
         cvars_loaded = False
@@ -62,9 +71,12 @@ class VConsole2Lib:
                     prnt = PacketPRNT(self.stream)
                     this_channel = channel.channelById(prnt.channelID, self.channels)
                     if this_channel not in self.ignore_channels:
-                        self.log("PRNT (%s): %s" % (this_channel, prnt.msg))
+                        color = this_channel.RGBA_Override
+                        if this_channel.name in self.channels_custom_color:
+                            color = self.channels_custom_color[this_channel.name]
+                        self.log("PRNT (%s): %s" % (this_channel.name, prnt.msg), color)
                         if self.on_prnt_received:
-                            self.on_prnt_received(self, this_channel, prnt.msg)
+                            self.on_prnt_received(self, this_channel.name, prnt.msg)
 
                 elif self.stream.msg_type == 'AINF':
                     self.ainf = PacketAINF(self.stream)

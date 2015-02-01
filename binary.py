@@ -51,8 +51,14 @@ class BinaryStream:
     def readInt32(self):
         return self.unpack('!i', 4)
 
+    def readInt32Little(self):
+        return self.unpack('i', 4)
+
     def readUInt32(self):
         return self.unpack('!I', 4)
+
+    def readUInt32Little(self):
+        return self.unpack('I', 4)
 
     def readInt64(self):
         return self.unpack('!q', 8)

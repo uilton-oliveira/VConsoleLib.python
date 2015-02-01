@@ -40,8 +40,10 @@ def my_on_prnt_received(vconsole, channel_name, msg):
 
 def main():
     vconsole = VConsole2Lib()
-    vconsole.log_to_file = "D:/vconsole.txt"
+    vconsole.log_to_file = "D:/vconsole.htm"
+    vconsole.html_output = True
     vconsole.log_to_screen = True
+    vconsole.channels_custom_color = {'VConComm': '009900', 'VScript': '3333CC'}
     #vconsole.ignore_channels = ['Scaleform', 'ScaleformScript']
     vconsole.on_disconnected = my_on_disconnected
     vconsole.on_adon_received = my_on_adon_received
