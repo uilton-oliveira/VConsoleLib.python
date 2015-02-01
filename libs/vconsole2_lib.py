@@ -1,4 +1,5 @@
-import os
+import time
+
 from packet_prnt import PacketPRNT
 from packet_ainf import PacketAINF
 from packet_adon import PacketADON
@@ -6,12 +7,11 @@ from packet_chan import PacketCHAN
 from packet_cvar import PacketCVAR
 from packet_cfgv import PacketCFGV
 
-import time
 
 __author__ = 'DarkSupremo'
 
 import socket
-from binary import BinaryStream
+from libs.binary import BinaryStream
 from threading import Thread
 
 

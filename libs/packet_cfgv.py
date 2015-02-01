@@ -1,6 +1,6 @@
 __author__ = 'DarkSupremo'
 
-from binary import BinaryStream
+from libs.binary import BinaryStream
 
 
 class PacketCFGV:

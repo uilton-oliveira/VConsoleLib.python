@@ -1,4 +1,4 @@
-from vconsole2_lib import VConsole2Lib
+from libs.vconsole2_lib import VConsole2Lib
 
 __author__ = 'DarkSupremo'
 

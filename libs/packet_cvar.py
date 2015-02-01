@@ -1,7 +1,7 @@
 __author__ = 'DarkSupremo'
 
-from binary import BinaryStream
-from cvar import Cvar
+from libs.binary import BinaryStream
+from libs.cvar import Cvar
 
 
 class PacketCVAR:

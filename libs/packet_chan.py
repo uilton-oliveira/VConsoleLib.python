@@ -1,8 +1,8 @@
-from channel import Channel
+from libs.channel import Channel
 
 __author__ = 'DarkSupremo'
 
-from binary import BinaryStream
+from libs.binary import BinaryStream
 
 
 class PacketCHAN:
