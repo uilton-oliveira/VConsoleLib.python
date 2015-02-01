@@ -1,6 +1,6 @@
 from channel import Channel
 
-__author__ = 'Uilton'
+__author__ = 'DarkSupremo'
 
 from binary import BinaryStream
 

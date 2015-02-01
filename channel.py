@@ -1,4 +1,4 @@
-__author__ = 'Uilton'
+__author__ = 'DarkSupremo'
 
 
 class Channel:

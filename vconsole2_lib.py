@@ -70,7 +70,7 @@ class VConsole2Lib:
                     self.adon_name = adon.name
                     self.__print("ADON: %s \n" % (self.adon_name))
                     if self.on_adon_received:
-                        self.on_adon_received(self.adon_name)
+                        self.on_adon_received(self, self.adon_name)
                 elif self.stream.msg_type == 'CHAN':
                     channel = PacketCHAN(self.stream, self.channels)
                 elif self.stream.msg_type == 'CVAR':
@@ -79,7 +79,8 @@ class VConsole2Lib:
                     PacketCFGV(self.stream)  # unknow, does nothing.
                     # when cfgv is called, cvars is already loaded.
                     if not cvars_loaded and self.on_cvars_loaded:
-                        self.on_cvars_loaded(self)
+                        cvars_loaded = True
+                        self.on_cvars_loaded(self, self.cvars)
                 else:
                     self.stream.readAllBytes()
 
