@@ -26,7 +26,8 @@ def my_on_cvars_loaded(vconsole, cvars):
     @param vconsole: VConsole2Lib
     @param cvars: list
     """
-    vconsole.log('cvars loaded')
+    vconsole.log('cvars loaded\n')
+    vconsole.send_cmd("say Hello World from VConsole2Lib.python!")
 
 
 def my_on_prnt_received(vconsole, channel_name, msg):
@@ -53,6 +54,7 @@ def main():
     vconsole.log("Trying connect...")
     while not vconsole.connect():
         pass
+
     vconsole.log("Connected...")
 
 

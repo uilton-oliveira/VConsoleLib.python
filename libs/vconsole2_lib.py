@@ -44,6 +44,17 @@ class VConsole2Lib:
         except:
             return False
 
+    def send_cmd(self, cmd):
+        cmd_array = bytearray()
+        cmd_array.extend(bytearray("CMND"))
+        cmd_array.extend(bytearray([0x00, 0xD2, 0x00, 0x00, 0x00]))
+        cmd_array.append(len(cmd)+13)
+        cmd_array.extend(bytearray([0x00, 0x00]))
+        cmd_array.extend(bytearray(cmd))
+        cmd_array.append(0x00)
+
+        self.client_socket.send(cmd_array)
+
     def log(self, text, color='000000'):
         if self.log_to_file:
             #file_exist = os.path.isfile(self.log_to_file)
