@@ -1,3 +1,4 @@
+import struct
 import time
 
 from packet_prnt import PacketPRNT
@@ -47,12 +48,13 @@ class VConsole2Lib:
     def send_cmd(self, cmd):
         cmd_array = bytearray()
         cmd_array.extend(bytearray("CMND"))
-        cmd_array.extend(bytearray([0x00, 0xD2, 0x00, 0x00, 0x00]))
-        cmd_array.append(len(cmd)+13)
+        cmd_array.extend(bytearray([0x00, 0xD2, 0x00, 0x00]))
+        cmd_array.extend(bytearray(struct.pack("!h", (len(cmd)+13))))  # convert it to 2 bytes (int16) big indian, ex: [0x00, 0x18]
         cmd_array.extend(bytearray([0x00, 0x00]))
         cmd_array.extend(bytearray(cmd))
         cmd_array.append(0x00)
 
+        #print ':'.join('{:02x}'.format(x) for x in cmd_array)  # debug
         self.client_socket.send(cmd_array)
 
     def log(self, text, color='000000'):
